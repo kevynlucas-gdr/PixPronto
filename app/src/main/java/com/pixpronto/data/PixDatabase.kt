@@ -35,6 +35,7 @@ data class PixHistoryEntity(
     @Insert suspend fun insertHistory(item: PixHistoryEntity): Long
     @Query("UPDATE pix_history SET favorite = :favorite WHERE id = :id") suspend fun setFavorite(id: Long, favorite: Boolean)
     @Query("DELETE FROM pix_history WHERE id = :id") suspend fun deleteHistory(id: Long)
+    @Query("DELETE FROM pix_history") suspend fun clearHistory()
 }
 
 @Database(entities = [PixKeyEntity::class, PixHistoryEntity::class], version = 1, exportSchema = true)
