@@ -29,6 +29,9 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
+      - name: Grant execute permission to Gradle
+        run: chmod +x gradlew
+
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
 
