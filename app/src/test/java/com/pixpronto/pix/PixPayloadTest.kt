@@ -19,6 +19,19 @@ class PixPayloadTest {
     }
     @Test(expected = IllegalArgumentException::class)
     fun rejectsZeroAmount() { PixPayload.build(PixRequest("x@y.com", "Loja", "Joao Pessoa", BigDecimal.ZERO)) }
+    @Test fun formattedCpfIsNormalizedBeforePayloadBuild() {
+        val formatted = PixKeyFormatter.normalize("529.982.247-25", PixKeyType.CPF)
+        assertEquals("52998224725", formatted)
+        assertTrue(PixKeyFormatter.isValid(formatted, PixKeyType.CPF))
+        val payload = PixPayload.build(PixRequest("529.982.247-25", "Loja Exemplo", "Campina Grande", keyType = PixKeyType.CPF))
+        assertTrue(PixPayload.validate(payload))
+        assertTrue(payload.contains("011152998224725"))
+    }
+
+    @Test fun rejectsInvalidCpf() {
+        assertFalse(PixKeyFormatter.isValid("111.111.111-11", PixKeyType.CPF))
+    }
+
     @Test fun detectsCrcCorruption() {
         val payload = PixPayload.build(PixRequest("x@y.com", "Loja", "Joao Pessoa"))
         assertFalse(PixPayload.validate(payload.dropLast(1) + "0"))
