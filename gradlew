@@ -2,7 +2,7 @@
 # Gradle bootstrap: downloads the pinned official Gradle distribution when absent.
 set -eu
 APP_HOME=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
-GRADLE_VERSION=8.13.2
+GRADLE_VERSION=8.13
 GRADLE_USER_HOME=${GRADLE_USER_HOME:-"$HOME/.gradle"}
 GRADLE_HOME="$GRADLE_USER_HOME/pixpronto-gradle/gradle-$GRADLE_VERSION"
 if [ ! -x "$GRADLE_HOME/bin/gradle" ]; then
